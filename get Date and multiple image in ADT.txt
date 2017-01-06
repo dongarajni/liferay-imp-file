@@ -1,0 +1,66 @@
+#if (!$entries.isEmpty())
+<div id="example6">
+        <ul id="menu5" class="example_menu">
+        
+	#foreach ($entry in $entries)
+		#set($renderer = $entry.getAssetRenderer() )
+	    #set($className = $renderer.getClassName() )
+	    #if( $className == "com.liferay.portlet.journal.model.JournalArticle" )
+		    #set( $journalArticle = $renderer.getArticle() )							            
+		    
+		    #set( $document = $saxReaderUtil.read($journalArticle.getContentByLocale($locale.toString())))
+		    
+		    #set( $title = $document.selectSingleNode("/root/dynamic-element[@name='Title']/dynamic-content"))
+		    #set( $category = $document.selectSingleNode("/root/dynamic-element[@name='Category']/dynamic-content"))
+		    #set( $start_date = $document.selectSingleNode("/root/dynamic-element[@name='Start_Date']/dynamic-content"))
+		    #set( $end_date = $document.selectSingleNode("/root/dynamic-element[@name='End_Date']/dynamic-content"))
+		    #set( $content = $document.selectSingleNode("/root/dynamic-element[@name='HTML3418']/dynamic-content"))
+		    #set( $display_image = $document.selectSingleNode("/root/dynamic-element[@name='Display_Image']/dynamic-content"))
+		    
+		    #set( $rootElement = $document.getRootElement() )
+		    #set( $xPathChooseDefaultImage = $saxReaderUtil.createXPath("dynamic-element[@name='Image3157']") )
+		    #set($images = $xPathChooseDefaultImage.selectNodes($rootElement))
+		     
+		    
+		    #set ($s_date = $dateUtil.newDate($getterUtil.getLong($start_date.getText())))
+		    #set ($e_date = $dateUtil.newDate($getterUtil.getLong($end_date.getText())))
+		    
+    
+		    <li>
+		    #if($velocityCount == 1)
+                <a class="expanded">
+            #else
+                <a class="collapsed">
+            #end
+            ${title.getText()} 
+		    <span class="category">${category.getText()}</span></a>
+            <ul>
+            <div>
+                <div class="photogallerydate">$dateUtil.getDate($s_date, "dd/MM/yyyy", $locale) to $dateUtil.getDate($e_date, "dd/MM/yyyy", $locale)</div>
+                  
+                <div class="gallery-img"> <a class="fancybox-buttons" data-fancybox-group="button" href="${display_image.getText()}.jpg">
+                  <div class="view view-first"> <img src="${display_image.getText()}.jpg" class="img-responsive">
+                    <div class="mask">
+                      <h2> <img src="/RFS-V1-theme/images/zoom_arrow.png"></h2>
+                    </div>
+                  </div>
+                  #foreach($img in $images)
+                   #set($galitem = $img.getStringValue().trim()+'.jpg')
+                          <a class="fancybox-buttons" data-fancybox-group="button" href="$galitem"></a>
+		          #end
+                  </a> 
+                  </div>
+                ${content.getText()}
+              </div>
+                </ul>
+          </li>
+		    
+		    
+		    
+		#end
+	#end
+	
+	</ul>  
+</div>
+#end
+
