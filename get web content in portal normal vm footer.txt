@@ -1,0 +1,11 @@
+<!-- Footer -->
+    <div class='fullwidth bg-sand'>
+    #set ($group_id = $themeDisplay.getScopeGroupId())
+	#set ($journalArticles = $serviceLocator.findService("com.liferay.portlet.journal.service.JournalArticleLocalService"))
+	#set ($urlTitle = "footer-section")
+	#set ($journalArticle = $journalArticles.getArticleByUrlTitle($group_id, $urlTitle))
+	#set ($webcontent-id = $journalArticle.getArticleId())
+	#set ($footerWebContent = $journalContentUtil.getContent($group_id, $webcontent-id, "", "$locale", ""))
+	$footerWebContent 
+	</div>
+<!-- EndOf Footer --> 
