@@ -1,0 +1,21 @@
+
+#set ($serviceContext = $portal.getClass().forName("com.liferay.portal.service.ServiceContextThreadLocal").getServiceContext())
+#set ($httpServletRequest = $serviceContext.getRequest())
+#set ($objThemeDisplay = $httpServletRequest.getAttribute("LIFERAY_SHARED_THEME_DISPLAY"))
+Current Page Name====>>>>$objThemeDisplay.getLayout().getName();
+
+
+
+#set ($layoutId = $request.get("theme-display").get("plid"))
+#set($layoutService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
+#set ($layoutLong = $getterUtil.getLong($layoutId))
+#set($layout = $layoutService.getLayout($layoutLong))
+#set ($pageName = $layout.getName($locale))
+
+Add this property in ext.property file
+
+velocity.engine.restricted.variables= 
+velocity.engine.restricted.classes= 
+freemarker.engine.restricted.classes= 
+freemarker.engine.restricted.variables=
+journal.template.velocity.restricted.variables=
