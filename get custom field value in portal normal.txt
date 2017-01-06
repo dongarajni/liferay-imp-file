@@ -1,0 +1,13 @@
+<section class="fullwidth page-title padd1 intro clearfix">
+	#set($layoutService = $serviceLocator.findService("com.liferay.portal.service.LayoutLocalService"))
+		#set ($layoutLong = $getterUtil.getLong($layoutId))
+		#set($layout = $layoutService.getLayout($layoutLong))
+		
+		#set($parentLayout= $layoutService.getLayout($layout.getParentPlid()))
+		#set($parentName = $parentLayout.getName($locale))
+		#set($pageLayout= $layoutService.getLayout($layout.getPlid()))
+		#set($value = $pageLayout.getExpandoBridge().getAttribute("Display Page Name"))
+      	<h1 class="wrap">
+      		$value
+		</h1>
+</section>
